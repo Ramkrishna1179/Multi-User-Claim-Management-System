@@ -63,7 +63,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       });
       
       const socket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000', {
-        path: '/api/socket.io',
         auth: {
           token: token
         },

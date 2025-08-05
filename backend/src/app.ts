@@ -30,6 +30,8 @@ const claimSocket = new ClaimSocket(server);
 // Set Socket.IO instance for ClaimService
 setSocketIO(claimSocket.getIO());
 
+
+
 // Connect to database
 connectDB();
 
@@ -43,8 +45,15 @@ logger.info('Starting Claim Management System Backend', {
 app.use(helmet());
 
 // CORS configuration
+const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
+logger.info('CORS Configuration', { 
+  corsOrigin, 
+  nodeEnv: process.env.NODE_ENV,
+  allEnvVars: Object.keys(process.env).filter(key => key.includes('CORS'))
+});
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: corsOrigin,
   credentials: true
 }));
 
@@ -92,6 +101,23 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Static file serving
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Multi-User Claim Management System API',
+    status: 'Server is running',
+    version: '1.0.0',
+    endpoints: {
+      health: '/health',
+      auth: '/api/auth',
+      posts: '/api/posts',
+      claims: '/api/claims',
+      admin: '/api/admin'
+    },
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
