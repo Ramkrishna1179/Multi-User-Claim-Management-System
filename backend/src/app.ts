@@ -104,19 +104,156 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Root endpoint
 app.get('/', (req, res) => {
-  res.json({
-    message: 'Multi-User Claim Management System API',
-    status: 'Server is running',
-    version: '1.0.0',
-    endpoints: {
-      health: '/health',
-      auth: '/api/auth',
-      posts: '/api/posts',
-      claims: '/api/claims',
-      admin: '/api/admin'
-    },
-    timestamp: new Date().toISOString()
-  });
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-User Claim Management System API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .status {
+            background: #e8f5e8;
+            color: #2d5a2d;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        .endpoints {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .endpoint {
+            margin: 10px 0;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .tech-item {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e7ff;
+        }
+        .tech-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .timestamp {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        .version {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="version">v1.0.0</div>
+        <h1 class="logo">🏢 Claim Management System</h1>
+        <p class="subtitle">Multi-User Claim Management System API Backend</p>
+        
+        <div class="status">
+            ✅ Server is running successfully
+        </div>
+        
+        <div class="endpoints">
+            <h3>📋 Available API Endpoints:</h3>
+            <div class="endpoint">GET /health - Health check</div>
+            <div class="endpoint">POST /api/auth/login - User authentication</div>
+            <div class="endpoint">GET /api/auth/profile - Get user profile</div>
+            <div class="endpoint">GET /api/claims - Get all claims</div>
+            <div class="endpoint">POST /api/claims - Create new claim</div>
+            <div class="endpoint">GET /api/posts - Get all posts</div>
+            <div class="endpoint">POST /api/posts - Create new post</div>
+            <div class="endpoint">GET /api/admin/settings - Admin settings</div>
+        </div>
+        
+        <div class="tech-stack">
+            <div class="tech-item">
+                <div class="tech-title">Backend</div>
+                <div>Node.js, Express.js, TypeScript</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-title">Database</div>
+                <div>MongoDB with Mongoose</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-title">Authentication</div>
+                <div>JWT, Role-based access</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-title">Real-time</div>
+                <div>Socket.IO for live updates</div>
+            </div>
+        </div>
+        
+        <div class="timestamp">
+            Server started: ${new Date().toLocaleString()}
+        </div>
+    </div>
+</body>
+</html>`;
+  
+  res.setHeader('Content-Type', 'text/html');
+  res.send(html);
 });
 
 // Health check endpoint
