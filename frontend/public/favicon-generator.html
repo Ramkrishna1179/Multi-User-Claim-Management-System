@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favicon Generator</title>
+</head>
+<body>
+    <h1>Favicon Generator for Claim Management System</h1>
+    <p>This page generates favicon files for the Claim Management System.</p>
+    
+    <canvas id="faviconCanvas" width="32" height="32" style="border: 1px solid #ccc;"></canvas>
+    <br><br>
+    <button onclick="generateFavicon()">Generate Favicon</button>
+    <button onclick="downloadFavicon()">Download Favicon</button>
+    
+    <script>
+        function generateFavicon() {
+            const canvas = document.getElementById('faviconCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 32, 32);
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 32, 32);
+            gradient.addColorStop(0, '#2563eb');
+            gradient.addColorStop(1, '#1d4ed8');
+            
+            // Draw background circle
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(16, 16, 15, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Draw border
+            ctx.strokeStyle = '#1e40af';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            
+            // Draw document/claim icon
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillRect(8, 6, 16, 20);
+            
+            // Draw document lines
+            ctx.fillStyle = '#2563eb';
+            ctx.fillRect(10, 10, 12, 1);
+            ctx.fillRect(10, 13, 10, 1);
+            ctx.fillRect(10, 16, 8, 1);
+            ctx.fillRect(10, 19, 6, 1);
+            
+            // Draw checkmark
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(12, 22);
+            ctx.lineTo(15, 25);
+            ctx.lineTo(20, 18);
+            ctx.stroke();
+            
+            // Draw dollar sign
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 8px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('$', 16, 28);
+        }
+        
+        function downloadFavicon() {
+            const canvas = document.getElementById('faviconCanvas');
+            const link = document.createElement('a');
+            link.download = 'favicon.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Generate favicon on page load
+        window.onload = function() {
+            generateFavicon();
+        };
+    </script>
+</body>
+</html> 
